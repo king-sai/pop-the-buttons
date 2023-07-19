@@ -1,0 +1,55 @@
+<div>
+    <h1 class="title">Pop The Buttons!</h1>
+    <h2 class="timer">Time Remaning: 20s</h2>
+    <h2 class="score">Score: 4</h2>
+    <button class="new-game"> NEW GAME</button>
+    <div class="play-area">
+        <div id="s1" class="square"></div>
+        <div id="s2" class="square"></div>
+        <div id="s3" class="square"></div>
+    </div>
+    <style>
+        body{
+            background-color: rgba(244, 10, 10, 0.812);
+        }
+        .title {
+            background-color: aqua;
+        } 
+        .timer {
+            background-color: beige;
+            position: absolute ;
+        }
+        .score {
+            background-color: yellow;
+            position: absolute; right: 50px;
+        }
+        .play-area{
+            border: 1px black;
+            background-color: blue;
+            height: 500;
+        }
+        .square {
+            background-color: black;
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            position: absolute;
+        }
+        #s1 { 
+            right: 25px;
+            top: 300px;
+        }
+        #s2{
+           left: 245px;
+           top: 500px;
+        }
+        #s3{
+            right: 400px;
+            top: 255px;
+        }
+    .new-game{
+           position: absolute;
+           right: 250px;
+        }  
+    </style>
+</div>
