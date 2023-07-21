@@ -7,6 +7,7 @@
         <div id="s1" class="square"></div>
         <div id="s2" class="square"></div>
         <div id="s3" class="square"></div>
+        <div id="new-game" class="new-game"></div>
     </div>
     <style>
         body{
@@ -24,10 +25,12 @@
             position: absolute; right: 50px;
         }
         .play-area{
-            border: 1px black;
-            background-color: blue;
-            height: 500;
+            border: 10px solid black;
+            height: 600px; 
+            top: 100px;
+            position: relative;
         }
+        
         .square {
             background-color: black;
             width: 100px;
@@ -53,3 +56,21 @@
         }  
     </style>
 </div>
+<body>
+    <script>
+        var newGameButton = document.getElementById("new-game");
+        var timer = document.getElementById("timer");
+        var score = document.getElementById("score");
+
+        var timeRemaining = 30;
+
+        function countdown() {
+            timeRemaining = timeRemaining - 1;
+        }
+
+        newGameButton.onclick = function () {
+            timer.textContent =  "Timer: 30s";
+            score.textContent = "score: 0";
+        }
+    </script>
+</body>
