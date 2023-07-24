@@ -5,8 +5,6 @@
     <button class="new-game"> NEW GAME</button>
     <div class="play-area">
         <div id="s1" class="square"></div>
-        <div id="s2" class="square"></div>
-        <div id="s3" class="square"></div>
     </div>
     <style>
         body{
@@ -41,14 +39,6 @@
             right: 25px;
             top: 300px;
         }
-        #s2{
-           left: 245px;
-           top: 500px;
-        }
-        #s3{
-            right: 400px;
-            top: 255px;
-        }
         .new-game{
            position: absolute;
            right: 250px;
@@ -60,22 +50,35 @@
         var newGameButton = document.querySelector(".new-game");
         var timer = document.querySelector(".timer");
         var score = document.querySelector(".score");
+        var s1 = document.querySelector("#s1");
 
-        var timeRemaining = 30;
+        var timeRemaining = 10;
+        var currentScore = 0;
 
-        function countdown() {
+        s1.onclick  = function () {
+            increaseScore()
+        }
+
+        if(timeRemaining >= 0) function countdown() {
+            
             timeRemaining = timeRemaining - 1;
             timer.textContent = "Time Remaining: " + timeRemaining + "s";
-            if(timeRemaining <= 0){
+            if(timeRemaining >= 0){
     clearInterval(intervalId); // Clear interval if time reaches 0
 }
     
         }
 
-        newGameButton.onclick = function () {
+        function increaseScore() {
+            currentScore = currentScore + 1;
+            score.textContent = "Score: " + currentScore
+        }
+
+        if(timeRemaining != 0) newGameButton.onclick = function () {
             timer.textContent =  "Time Remaning: 30s";
             score.textContent = "Score: 0";
-            timeRemaining = 30; // Reset the timeRemaining
+            timeRemaining = 10; // Reset the timeRemaining
+            currentScore = 0;
             intervalId = setInterval(countdown, 1000); // Start the countdown
         }
     </script>
