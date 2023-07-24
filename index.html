@@ -67,8 +67,9 @@
             timeRemaining = timeRemaining - 1;
             timer.textContent = "Time Remaining: " + timeRemaining + "s";
             if(timeRemaining <= 0){
-                clearInterval(intervalId); // Clear interval if time reaches 0
-            }
+    clearInterval(intervalId); // Clear interval if time reaches 0
+}
+    
         }
 
         newGameButton.onclick = function () {
