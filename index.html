@@ -1,7 +1,8 @@
 <div>
     <h1 class="title">Pop The Buttons!</h1>
-    <h2 class="timer">Time Remaning: 20s</h2>
+    <h2 class="timer">Time Remaining: 20s</h2>
     <h2 class="score">Score: 4</h2>
+    <h2 class="high-score">High Score: 0</h2>
     <button class="new-game"> NEW GAME</button>
     <div class="play-area">
         <div id="s1" class="square"></div>
@@ -10,16 +11,14 @@
         body{
             background-color: rgba(244, 10, 10, 0.812);
         }
-        .title {
-            background-color: aqua;
-        } 
         .timer {
-            background-color: beige;
             position: absolute ;
         }
         .score {
-            background-color: yellow;
-            position: absolute; right: 50px;
+            position: absolute; right: 20px; top: 35;
+        }
+        .high-score {
+            position: absolute; right: 110px; top: 72px;
         }
         .play-area{
             border: 10px solid black;
@@ -41,7 +40,7 @@
         }
         .new-game{
            position: absolute;
-           right: 250px;
+           right: 250px; top: 60;
         }  
     </style>
 </div>
@@ -50,22 +49,31 @@
         var newGameButton = document.querySelector(".new-game");
         var timer = document.querySelector(".timer");
         var score = document.querySelector(".score");
+        var highScore = document.querySelector(".high-score");
         var s1 = document.querySelector("#s1");
-
+        
+        var playArea = document.querySelector(".play-area");
+        
         var timeRemaining = 10;
         var currentScore = 0;
 
-        s1.onclick  = function () {
-            increaseScore()
+        s1.onclick = function () {
+            if(timeRemaining > 0) {
+                increaseScore();
+                moveSquare();
+            }
+            
         }
 
-        if(timeRemaining >= 0) function countdown() {
+        function countdown() {
             
             timeRemaining = timeRemaining - 1;
             timer.textContent = "Time Remaining: " + timeRemaining + "s";
-            if(timeRemaining >= 0){
-    clearInterval(intervalId); // Clear interval if time reaches 0
-}
+            
+            if(timeRemaining <= 0){
+                clearInterval(intervalId); // Clear interval if time reaches 0
+                updateHighScore();
+            }
     
         }
 
@@ -73,13 +81,35 @@
             currentScore = currentScore + 1;
             score.textContent = "Score: " + currentScore
         }
+        
+         function moveSquare() {
+             var playAreaWidth = playArea.offsetWidth - s1.offsetWidth - parseInt(window.getComputedStyle(playArea).borderLeftWidth) - parseInt(window.getComputedStyle(playArea).borderRightWidth);
+             var playAreaHeight = playArea.offsetHeight - s1.offsetHeight - parseInt(window.getComputedStyle(playArea).borderTopWidth) - parseInt(window.getComputedStyle(playArea).borderBottomWidth);
+             
+             var randomX = Math.floor(Math.random() * playAreaWidth);
+             var randomY = Math.floor(Math.random() * playAreaHeight);
+             
+             s1.style.left = randomX + "px";
+             s1.style.top = randomY + "px";
+         }
+         
+         function updateHighScore() {
+             if(currentScore > parseInt(highScore.textContent.split(": ")[1])) {
+                 highScore.textContent = "High Score: " + currentScore
+             }
+         }
 
-        if(timeRemaining != 0) newGameButton.onclick = function () {
-            timer.textContent =  "Time Remaning: 30s";
-            score.textContent = "Score: 0";
-            timeRemaining = 10; // Reset the timeRemaining
-            currentScore = 0;
-            intervalId = setInterval(countdown, 1000); // Start the countdown
-        }
+        
+         newGameButton.onclick = function () {
+             clearInterval(intervalId); // Clear interval if new game is clicked
+             timer.textContent = "Time Remaining: 10s";
+             score.textContent = "Score: 0";
+             timeRemaining = 10; // Reset the timeRemaining
+             currentScore = 0;
+             intervalId = setInterval(countdown, 1000); // Start the countdown
+         }
+         
+         var intervalId; // Declare intervalId variable
     </script>
 </body>
+
