@@ -1,11 +1,14 @@
 <div>
     <h1 class="title">Pop The Buttons!</h1>
-    <h2 class="timer">Time Remaining: 20s</h2>
-    <h2 class="score">Score: 4</h2>
+    <h2 class="timer">Time Remaining: 30s</h2>
+    <h2 class="score">Score: 0</h2>
     <h2 class="high-score">High Score: 0</h2>
+    <h2 class="game-over" style="display: none;">GAME OVER!</h2>
     <button class="new-game"> NEW GAME</button>
     <div class="play-area">
         <div id="s1" class="square"></div>
+        <div id="s2" class="square"></div>
+        <div id="s3" class="square"></div>
     </div>
     <style>
         body{
@@ -19,6 +22,11 @@
         }
         .high-score {
             position: absolute; right: 110px; top: 72px;
+        }
+        .game-over {
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+            font-size: 36px;
+            color: white;
         }
         .play-area{
             border: 10px solid black;
@@ -50,47 +58,91 @@
         var timer = document.querySelector(".timer");
         var score = document.querySelector(".score");
         var highScore = document.querySelector(".high-score");
+        
         var s1 = document.querySelector("#s1");
+        var s2 = document.querySelector("#s2");
+        var s3 = document.querySelector("#s3");
         
         var playArea = document.querySelector(".play-area");
         
-        var timeRemaining = 10;
+        var gameOver = document.querySelector(".game-over");
+        
+        var timeRemaining = 30;
         var currentScore = 0;
 
-        s1.onclick = function () {
-            if(timeRemaining > 0) {
-                increaseScore();
-                moveSquare();
-            }
-            
-        }
+         s1.onclick = function () {
+             if(timeRemaining > 0) {
+                 increaseScore();
+                 moveSquare();
+             }
+         }
 
-        function countdown() {
+         s2.onclick = function () {
+             if(timeRemaining > 0) {
+                 increaseScore();
+                 moveSquare();
+             }
+         }
+
+         s3.onclick = function () {
+             if(timeRemaining > 0) {
+                 increaseScore();
+                 moveSquare();
+             }
+         }
+
+         function countdown() {
             
-            timeRemaining = timeRemaining - 1;
-            timer.textContent = "Time Remaining: " + timeRemaining + "s";
+             timeRemaining = timeRemaining - 1;
+             timer.textContent = "Time Remaining: " + timeRemaining + "s";
             
-            if(timeRemaining <= 0){
-                clearInterval(intervalId); // Clear interval if time reaches 0
-                updateHighScore();
-            }
+             if(timeRemaining <= 0){
+                 clearInterval(intervalId); // Clear interval if time reaches 0
+                 updateHighScore();
+                 gameOver.style.display = "block";
+                 timer.style.display = "none";
+             }
     
-        }
+         }
 
-        function increaseScore() {
-            currentScore = currentScore + 1;
-            score.textContent = "Score: " + currentScore
-        }
+         function increaseScore() {
+             currentScore = currentScore + 1;
+             score.textContent = "Score: " + currentScore
+         }
         
          function moveSquare() {
              var playAreaWidth = playArea.offsetWidth - s1.offsetWidth - parseInt(window.getComputedStyle(playArea).borderLeftWidth) - parseInt(window.getComputedStyle(playArea).borderRightWidth);
              var playAreaHeight = playArea.offsetHeight - s1.offsetHeight - parseInt(window.getComputedStyle(playArea).borderTopWidth) - parseInt(window.getComputedStyle(playArea).borderBottomWidth);
              
-             var randomX = Math.floor(Math.random() * playAreaWidth);
-             var randomY = Math.floor(Math.random() * playAreaHeight);
+             var randomX1, randomY1, randomX2, randomY2, randomX3, randomY3;
+
+             do {
+                 randomX1 = Math.floor(Math.random() * playAreaWidth);
+                 randomY1 = Math.floor(Math.random() * playAreaHeight);
+             } while (isOverlapping(randomX1, randomY1, s2.offsetLeft, s2.offsetTop, s3.offsetLeft, s3.offsetTop));
              
-             s1.style.left = randomX + "px";
-             s1.style.top = randomY + "px";
+             s1.style.left = randomX1 + "px";
+             s1.style.top = randomY1 + "px";
+
+             do {
+                 randomX2 = Math.floor(Math.random() * playAreaWidth);
+                 randomY2 = Math.floor(Math.random() * playAreaHeight);
+             } while (isOverlapping(randomX2, randomY2, s1.offsetLeft, s1.offsetTop, s3.offsetLeft, s3.offsetTop));
+             
+             s2.style.left = randomX2 + "px";
+             s2.style.top = randomY2 + "px";
+
+             do {
+                 randomX3 = Math.floor(Math.random() * playAreaWidth);
+                 randomY3 = Math.floor(Math.random() * playAreaHeight);
+             } while (isOverlapping(randomX3, randomY3, s1.offsetLeft, s1.offsetTop, s2.offsetLeft, s2.offsetTop));
+             
+             s3.style.left = randomX3 + "px";
+             s3.style.top = randomY3 + "px";
+         }
+
+         function isOverlapping(x1, y1, x2, y2, x3, y3) {
+             return (Math.abs(x1 - x2) < s1.offsetWidth && Math.abs(y1 - y2) < s1.offsetHeight) || (Math.abs(x1 - x3) < s1.offsetWidth && Math.abs(y1 - y3) < s1.offsetHeight);
          }
          
          function updateHighScore() {
@@ -102,14 +154,16 @@
         
          newGameButton.onclick = function () {
              clearInterval(intervalId); // Clear interval if new game is clicked
-             timer.textContent = "Time Remaining: 10s";
+             timer.textContent = "Time Remaining: 30s";
              score.textContent = "Score: 0";
-             timeRemaining = 10; // Reset the timeRemaining
+             timeRemaining = 30; // Reset the timeRemaining
              currentScore = 0;
              intervalId = setInterval(countdown, 1000); // Start the countdown
+             
+             gameOver.style.display = "none";
+             timer.style.display = "block";
          }
          
          var intervalId; // Declare intervalId variable
     </script>
 </body>
-
